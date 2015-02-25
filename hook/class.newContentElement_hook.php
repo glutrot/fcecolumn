@@ -144,10 +144,14 @@ class tx_fcecolumn_newContentElement_hook implements \TYPO3\CMS\Backend\Wizard\N
         if (!in_array($plgKey, $onlyPlugins))
         unset($wizardItems[$plgKey]);
     }
-    
-    
 
-    $removeItems = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',',$TCEFORM_TSconfig['CType']['removeItems'],1);
+
+
+	$removeItems = array();
+	if (array_key_exists('CType', $TCEFORM_TSconfig) && is_array($TCEFORM_TSconfig['CType']) && array_key_exists('removeItems', $TCEFORM_TSconfig['CType'])) {
+		// FIXME: check why CType is an empty string instead of the expected array but fcecolumn appears to still work as it should (just silencing the warning for now)
+		$removeItems = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',',$TCEFORM_TSconfig['CType']['removeItems'],1);
+	}
 
 	$headersUsed = Array();
 			// Traverse wizard items:
